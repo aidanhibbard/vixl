@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { getRouter } from '@/lib/router-instance'
 import { useLocalStorage } from '@vueuse/core'
 import { open } from '@tauri-apps/plugin-dialog'
 import { toast } from 'vue-sonner'
@@ -41,6 +41,10 @@ export const useNotesStore = defineStore('notes', () => {
     [...recentNotes.value].sort((a, b) => Date.parse(b.openedAt) - Date.parse(a.openedAt)),
   )
 
+  const indexRecentNotes = computed(() => sortedRecentNotes.value.slice(0, 5))
+
+  const recentNotesCount = computed(() => recentNotes.value.length)
+
   const requireTauri = (): boolean => {
     if (isTauri()) {
       return true
@@ -69,8 +73,7 @@ export const useNotesStore = defineStore('notes', () => {
   }
 
   const openNote = async (note: { id: string }): Promise<void> => {
-    const router = useRouter()
-    await router.push({
+    await getRouter().push({
       name: 'note',
       params: { id: note.id },
     })
@@ -101,8 +104,8 @@ export const useNotesStore = defineStore('notes', () => {
       const note = await buildRecentNoteFromPath(path)
       setCwd(note.directoryPath)
       touchRecentNote(note)
-      await openNote(note)
       toast.success(`Opened ${note.title}`)
+      await openNote(note)
       return
     }
     toast.error('Choose a .md file or notes directory.')
@@ -159,8 +162,8 @@ export const useNotesStore = defineStore('notes', () => {
       const note = await createNoteFile(directoryPath)
       setCwd(directoryPath)
       touchRecentNote(note)
-      await openNote(note)
       toast.success('Note created')
+      await openNote(note)
     })
   }
 
@@ -174,8 +177,8 @@ export const useNotesStore = defineStore('notes', () => {
     await runStoreAction(setLoading, async () => {
       setCwd(note.directoryPath)
       touchRecentNote(note)
-      await openNote(note)
       toast.success(`Opened ${note.title}`)
+      await openNote(note)
     })
   }
 
@@ -211,6 +214,8 @@ export const useNotesStore = defineStore('notes', () => {
     recentNotes,
     sidebarRecentNotes,
     sortedRecentNotes,
+    indexRecentNotes,
+    recentNotesCount,
     isDragging,
     isBusy,
     setCwd,

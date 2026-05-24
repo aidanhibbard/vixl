@@ -18,7 +18,7 @@ const notesStore = useNotesStore()
 
 const pathLabels = ref<Record<string, string>>({})
 
-const recentNotes = computed(() => notesStore.sortedRecentNotes)
+const recentNotes = computed(() => notesStore.indexRecentNotes)
 
 watch(
   recentNotes,
@@ -46,14 +46,14 @@ const handleOpenNote = async (id: string): Promise<void> => {
         Recent notes
       </h2>
       <Button
-        v-if="recentNotes.length"
+        v-if="notesStore.recentNotesCount > 0"
         variant="link"
         class="text-muted-foreground h-auto gap-1.5 p-0 text-sm"
         as-child
       >
         <RouterLink :to="{ name: 'notes' }">
           <List class="size-3.5" />
-          View all ({{ recentNotes.length }})
+          View all ({{ notesStore.recentNotesCount }})
         </RouterLink>
       </Button>
     </div>

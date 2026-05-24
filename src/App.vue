@@ -1,9 +1,17 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
 import { Toaster } from '@/components/shadcn/ui/sonner'
 import DefaultLayout from '@/layouts/default.vue'
 
-useColorMode()
+const colorMode = useColorMode()
+
+const toasterTheme = computed(() => {
+  if (colorMode.value === 'auto') {
+    return 'system'
+  }
+  return colorMode.value
+})
 </script>
 
 <template>
@@ -18,5 +26,12 @@ useColorMode()
       </Transition>
     </RouterView>
   </DefaultLayout>
-  <Toaster rich-colors close-button class="z-[200]" />
+  <Toaster
+    rich-colors
+    close-button
+    position="bottom-right"
+    :theme="toasterTheme"
+    :toast-options="{ duration: 4000 }"
+    class="pointer-events-auto"
+  />
 </template>
