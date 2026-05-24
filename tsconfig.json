@@ -13,6 +13,7 @@
   ],
   // https://www.shadcn-vue.com/docs/installation/vite#edit-tsconfigjson-file
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
