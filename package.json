@@ -17,7 +17,9 @@
     "format": "oxfmt src/"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
     "pinia": "^3.0.4",
+    "tailwindcss": "^4.3.0",
     "vue": "beta",
     "vue-router": "^5.0.4"
   },
