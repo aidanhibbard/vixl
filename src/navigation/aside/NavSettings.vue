@@ -2,8 +2,7 @@
 import { Settings2 } from '@lucide/vue'
 import { RouterLink, useRoute } from 'vue-router'
 import {
-  SidebarGroup,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -13,8 +12,7 @@ const route = useRoute()
 </script>
 
 <template>
-  <SidebarGroup>
-    <SidebarGroupLabel>Settings</SidebarGroupLabel>
+  <SidebarFooter>
     <SidebarMenu>
       <SidebarMenuItem>
         <SidebarMenuButton
@@ -29,5 +27,5 @@ const route = useRoute()
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
-  </SidebarGroup>
+  </SidebarFooter>
 </template>

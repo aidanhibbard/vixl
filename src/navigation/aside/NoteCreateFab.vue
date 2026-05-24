@@ -10,12 +10,15 @@ const route = useRoute()
 const { state, isMobile } = useSidebar()
 const notesStore = useNotesStore()
 
-const showFab = computed(
-  () =>
-    state.value === 'collapsed'
-    && !isMobile.value
-    && route.name !== 'index',
-)
+const showFab = computed(() => {
+  if (route.name === 'index') {
+    return false
+  }
+  if (isMobile.value) {
+    return true
+  }
+  return state.value === 'collapsed'
+})
 </script>
 
 <template>
@@ -24,7 +27,7 @@ const showFab = computed(
     type="button"
     variant="default"
     size="icon"
-    class="fixed bottom-6 right-6 z-50 size-12 rounded-full shadow-lg transition-opacity"
+    class="fixed bottom-6 right-6 z-[60] size-12 rounded-full shadow-lg transition-opacity"
     aria-label="New note"
     :disabled="notesStore.isBusy"
     @click="notesStore.createNote()"

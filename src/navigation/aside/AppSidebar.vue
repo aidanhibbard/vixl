@@ -27,8 +27,8 @@ const notesStore = useNotesStore()
     <SidebarContent>
       <NavHome />
       <RecentNotes :notes="notesStore.sidebarRecentNotes" />
-      <NavSettings />
     </SidebarContent>
+    <NavSettings />
     <SidebarRail />
   </Sidebar>
 </template>

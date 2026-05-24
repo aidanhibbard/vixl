@@ -8,8 +8,8 @@ import { useNotesStore } from '@/stores/notes-store'
 
 const notesStore = useNotesStore()
 
-onMounted(() => {
-  void notesStore.initDragDrop()
+onMounted(async () => {
+  await notesStore.initDragDrop()
 })
 
 onUnmounted(() => {
