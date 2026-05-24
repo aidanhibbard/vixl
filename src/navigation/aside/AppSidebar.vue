@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import type { SidebarProps } from '@/components/shadcn/ui/sidebar'
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
-  GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
 } from '@lucide/vue'
+import AsideToolbar from '@/navigation/aside/AsideToolbar.vue'
 import NavMain from '@/navigation/aside/NavMain.vue'
 import NavProjects from '@/navigation/aside/NavProjects.vue'
-import TeamSwitcher from '@/navigation/aside/TeamSwitcher.vue'
 import {
   Sidebar,
   SidebarContent,
@@ -27,23 +24,6 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 })
 
 const data = {
-  teams: [
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
   navMain: [
     {
       title: 'Playground',
@@ -100,7 +80,7 @@ const data = {
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <TeamSwitcher :teams="data.teams" />
+      <AsideToolbar />
     </SidebarHeader>
     <SidebarContent>
       <NavMain :items="data.navMain" />
