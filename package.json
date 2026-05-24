@@ -12,12 +12,16 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "run-s lint:*",
+    "lint:ci": "run-s lint:oxlint:ci lint:eslint:ci",
     "lint:oxlint": "oxlint . --fix",
+    "lint:oxlint:ci": "oxlint .",
     "lint:eslint": "eslint . --fix --cache",
+    "lint:eslint:ci": "eslint . --cache",
     "format": "oxfmt src/",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build"
+    "tauri:build": "tauri build",
+    "tauri:build:ci": "tauri build --no-bundle -c src-tauri/tauri.ci.conf.json"
   },
   "dependencies": {
     "@lucide/vue": "^1.16.0",
