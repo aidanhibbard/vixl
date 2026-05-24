@@ -5,8 +5,23 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/HomeView.vue'),
+      name: 'index',
+      component: () => import('@/views/IndexPage.vue'),
+    },
+    {
+      path: '/notes',
+      name: 'notes',
+      component: () => import('@/views/notes/NotesList.vue'),
+    },
+    {
+      path: '/notes/:id',
+      name: 'note',
+      component: () => import('@/views/notes/NoteDetail.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/SettingsPage.vue'),
     },
   ],
 })

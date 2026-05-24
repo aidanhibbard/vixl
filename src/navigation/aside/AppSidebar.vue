@@ -14,12 +14,10 @@ import {
 } from '@lucide/vue'
 import NavMain from '@/navigation/aside/NavMain.vue'
 import NavProjects from '@/navigation/aside/NavProjects.vue'
-import NavUser from '@/navigation/aside/NavUser.vue'
 import TeamSwitcher from '@/navigation/aside/TeamSwitcher.vue'
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from '@/components/shadcn/ui/sidebar'
@@ -29,11 +27,6 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 })
 
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   teams: [
     {
       name: 'Acme Inc',
@@ -113,9 +106,6 @@ const data = {
       <NavMain :items="data.navMain" />
       <NavProjects :projects="data.projects" />
     </SidebarContent>
-    <SidebarFooter>
-      <NavUser :user="data.user" />
-    </SidebarFooter>
     <SidebarRail />
   </Sidebar>
 </template>
