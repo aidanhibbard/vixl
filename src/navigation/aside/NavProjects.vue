@@ -1,12 +1,6 @@
 <script setup lang="ts">
-import type { LucideIcon } from "@lucide/vue"
-import {
-  Folder,
-  Forward,
-  MoreHorizontal,
-  Trash2,
-} from "@lucide/vue"
-
+import type { LucideIcon } from '@lucide/vue'
+import { Folder, Forward, MoreHorizontal, Trash2 } from '@lucide/vue'
 import {
   DropdownMenu,
   DropdownMenuContent,
