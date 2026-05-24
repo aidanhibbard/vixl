@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { SidebarProps } from '@/components/shadcn/ui/sidebar'
 import AsideToolbar from '@/navigation/aside/AsideToolbar.vue'
+import NavHome from '@/navigation/aside/NavHome.vue'
 import NavSettings from '@/navigation/aside/NavSettings.vue'
 import RecentNotes from '@/navigation/aside/RecentNotes.vue'
 import {
@@ -24,6 +25,7 @@ const notesStore = useNotesStore()
       <AsideToolbar />
     </SidebarHeader>
     <SidebarContent>
+      <NavHome />
       <RecentNotes :notes="notesStore.sidebarRecentNotes" />
       <NavSettings />
     </SidebarContent>

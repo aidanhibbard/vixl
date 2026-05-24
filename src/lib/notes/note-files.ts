@@ -5,12 +5,29 @@ import type { RecentNote } from '@/types/recent-note'
 
 const NOTE_EXTENSION = '.md'
 
-const timestampForFileName = (): string => {
-  return new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+export const fileNameForNewNote = (): string => {
+  const now = new Date()
+  const pad = (value: number): string => String(value).padStart(2, '0')
+
+  return [
+    now.getFullYear(),
+    pad(now.getMonth() + 1),
+    pad(now.getDate()),
+    pad(now.getHours()),
+    pad(now.getMinutes()),
+    pad(now.getSeconds()),
+  ].join('-') + NOTE_EXTENSION
 }
 
 export const ensureDirectory = async (directoryPath: string): Promise<void> => {
-  if (!(await exists(directoryPath))) {
+  let present = false
+  try {
+    present = await exists(directoryPath)
+  } catch {
+    present = false
+  }
+
+  if (!present) {
     await mkdir(directoryPath, { recursive: true })
   }
 }
@@ -32,22 +49,12 @@ export const buildRecentNoteFromPath = async (
   }
 }
 
-export const createNoteInDirectory = async (directoryPath: string): Promise<RecentNote> => {
+export const createNoteFile = async (directoryPath: string): Promise<RecentNote> => {
   await ensureDirectory(directoryPath)
-  const fileName = `note-${timestampForFileName()}${NOTE_EXTENSION}`
+  const fileName = fileNameForNewNote()
   const filePath = await join(directoryPath, fileName)
   await writeTextFile(filePath, '# Untitled\n\n')
   return buildRecentNoteFromPath(filePath, directoryPath)
-}
-
-export const createNotesDirectory = async (
-  parentPath: string,
-  folderName: string,
-): Promise<string> => {
-  const trimmed = folderName.trim() || 'notes'
-  const directoryPath = await join(parentPath, trimmed)
-  await ensureDirectory(directoryPath)
-  return directoryPath
 }
 
 export const pathKind = async (

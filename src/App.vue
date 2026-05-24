@@ -8,7 +8,15 @@ useColorMode()
 
 <template>
   <DefaultLayout>
-    <RouterView />
+    <RouterView v-slot="{ Component, route }">
+      <Transition name="page" mode="out-in">
+        <component
+          :is="Component"
+          :key="route.fullPath"
+          class="flex min-h-0 flex-1 flex-col"
+        />
+      </Transition>
+    </RouterView>
   </DefaultLayout>
-  <Toaster rich-colors close-button />
+  <Toaster rich-colors close-button class="z-[200]" />
 </template>

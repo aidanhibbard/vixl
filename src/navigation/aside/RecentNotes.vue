@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { List } from '@lucide/vue'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { toast } from 'vue-sonner'
 import NoteActionsMenu from '@/navigation/aside/NoteActionsMenu.vue'
 import { useNotesStore } from '@/stores/notes-store'
@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
 } from '@/components/shadcn/ui/sidebar'
 
-defineProps<{
+const props = defineProps<{
   notes: {
     id: string
     title: string
@@ -20,11 +20,14 @@ defineProps<{
 }>()
 
 const route = useRoute()
-const router = useRouter()
 const notesStore = useNotesStore()
 
+const handleOpenNote = async (noteId: string): Promise<void> => {
+  await notesStore.openRecentNote(noteId)
+}
+
 const handleEdit = async (noteId: string): Promise<void> => {
-  await router.push({ name: 'note', params: { id: noteId } })
+  await handleOpenNote(noteId)
 }
 
 const handleDuplicate = (_noteId: string): void => {
@@ -41,11 +44,13 @@ const handleDelete = (noteId: string): void => {
   <SidebarGroup class="group-data-[collapsible=icon]:hidden">
     <SidebarGroupLabel>Recent notes</SidebarGroupLabel>
     <SidebarMenu>
-      <SidebarMenuItem v-for="note in notes" :key="note.id">
-        <SidebarMenuButton as-child :is-active="route.name === 'note' && route.params.id === note.id">
-          <RouterLink :to="{ name: 'note', params: { id: note.id } }">
-            <span class="truncate">{{ note.title }}</span>
-          </RouterLink>
+      <SidebarMenuItem v-for="note in props.notes" :key="note.id">
+        <SidebarMenuButton
+          :is-active="route.name === 'note' && route.params.id === note.id"
+          :disabled="notesStore.isBusy"
+          @click="handleOpenNote(note.id)"
+        >
+          <span class="truncate">{{ note.title }}</span>
         </SidebarMenuButton>
         <NoteActionsMenu
           :note-id="note.id"

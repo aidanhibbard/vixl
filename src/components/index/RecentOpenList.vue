@@ -11,11 +11,10 @@ import {
   EmptyTitle,
 } from '@/components/shadcn/ui/empty'
 import { formatPathForDisplay } from '@/lib/notes/paths'
-import { useWorkspace } from '@/composables/use-workspace'
+import { isTauri } from '@/lib/tauri/is-tauri'
 import { useNotesStore } from '@/stores/notes-store'
 
 const notesStore = useNotesStore()
-const { openNote } = useWorkspace()
 
 const pathLabels = ref<Record<string, string>>({})
 
@@ -26,7 +25,9 @@ watch(
   async (notes) => {
     const labels: Record<string, string> = {}
     for (const note of notes) {
-      labels[note.id] = await formatPathForDisplay(note.directoryPath)
+      labels[note.id] = isTauri()
+        ? await formatPathForDisplay(note.directoryPath)
+        : note.directoryPath
     }
     pathLabels.value = labels
   },
@@ -34,12 +35,7 @@ watch(
 )
 
 const handleOpenNote = async (id: string): Promise<void> => {
-  const note = notesStore.findRecentNoteById(id)
-  if (!note) {
-    return
-  }
-  notesStore.touchRecentNote(note)
-  await openNote(note)
+  await notesStore.openRecentNote(id)
 }
 </script>
 
@@ -81,7 +77,8 @@ const handleOpenNote = async (id: string): Promise<void> => {
       <li v-for="note in recentNotes" :key="note.filePath">
         <button
           type="button"
-          class="hover:bg-accent/40 flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-3 text-left transition-colors"
+          class="hover:bg-accent/40 flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-3 text-left transition-colors disabled:pointer-events-none disabled:opacity-50"
+          :disabled="notesStore.isBusy"
           @click="handleOpenNote(note.id)"
         >
           <span class="flex min-w-0 items-center gap-2">

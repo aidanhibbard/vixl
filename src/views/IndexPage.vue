@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { FolderInput } from '@lucide/vue'
+import { storeToRefs } from 'pinia'
 import IndexHero from '@/components/index/IndexHero.vue'
 import RecentOpenList from '@/components/index/RecentOpenList.vue'
 import WorkspaceActions from '@/components/index/WorkspaceActions.vue'
-import { useWorkspace } from '@/composables/use-workspace'
+import { useNotesStore } from '@/stores/notes-store'
 
-const { isDragging } = useWorkspace({ watchDragDrop: true })
+const notesStore = useNotesStore()
+const { isDragging } = storeToRefs(notesStore)
 </script>
 
 <template>

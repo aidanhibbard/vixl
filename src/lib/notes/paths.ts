@@ -1,10 +1,10 @@
-import { homeDir, join } from '@tauri-apps/api/path'
+import { documentDir, homeDir, join } from '@tauri-apps/api/path'
 
-export const DEFAULT_NOTES_SEGMENTS = ['Documents', 'vixl', 'notes'] as const
+export const DEFAULT_NOTES_RELATIVE = ['vixl', 'notes'] as const
 
 export const resolveDefaultNotesDirectory = async (): Promise<string> => {
-  const home = await homeDir()
-  return join(home, ...DEFAULT_NOTES_SEGMENTS)
+  const documents = await documentDir()
+  return join(documents, ...DEFAULT_NOTES_RELATIVE)
 }
 
 export const formatPathForDisplay = async (fullPath: string): Promise<string> => {

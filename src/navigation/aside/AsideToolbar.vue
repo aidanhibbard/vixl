@@ -13,10 +13,10 @@ import {
   TooltipTrigger,
 } from '@/components/shadcn/ui/tooltip'
 import { useSidebar } from '@/components/shadcn/ui/sidebar'
-import { useWorkspace } from '@/composables/use-workspace'
+import { useNotesStore } from '@/stores/notes-store'
 
 const searchQuery = ref('')
-const { createNewNote } = useWorkspace()
+const notesStore = useNotesStore()
 
 const { state, isMobile, setOpen } = useSidebar()
 
@@ -52,7 +52,7 @@ const handleSearchIconClick = (): void => {
         size="icon"
         class="shrink-0"
         aria-label="New note"
-        @click="createNewNote"
+        @click="notesStore.createNote()"
       >
         <SquarePen class="size-4" />
       </Button>
