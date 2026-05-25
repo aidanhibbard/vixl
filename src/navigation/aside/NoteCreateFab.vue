@@ -11,7 +11,7 @@ const { state, isMobile } = useSidebar()
 const notesStore = useNotesStore()
 
 const showFab = computed(() => {
-  if (route.name === 'index') {
+  if (route.name === 'index' || route.name === 'settings') {
     return false
   }
   if (isMobile.value) {
