@@ -1,43 +1,44 @@
 <script setup lang="ts">
-import { List } from '@lucide/vue'
-import { RouterLink, useRoute } from 'vue-router'
-import { toast } from 'vue-sonner'
-import NoteActionsMenu from '@/navigation/aside/NoteActionsMenu.vue'
-import { useNotesStore } from '@/stores/notes-store'
+import { List } from "@lucide/vue";
+import { RouterLink, useRoute } from "vue-router";
+import { toast } from "vue-sonner";
+import NoteActionsMenu from "@/navigation/aside/NoteActionsMenu.vue";
+import { useNotesStore } from "@/stores/notes-store";
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/shadcn/ui/sidebar'
+} from "@/components/shadcn/ui/sidebar";
 
 const props = defineProps<{
   notes: {
-    id: string
-    title: string
-  }[]
-}>()
+    id: string;
+    title: string;
+  }[];
+}>();
 
-const route = useRoute()
-const notesStore = useNotesStore()
+const route = useRoute();
+const notesStore = useNotesStore();
 
 const handleOpenNote = async (noteId: string): Promise<void> => {
-  await notesStore.openRecentNote(noteId)
-}
+  await notesStore.openRecentNote(noteId);
+};
 
 const handleEdit = async (noteId: string): Promise<void> => {
-  await handleOpenNote(noteId)
-}
+  await handleOpenNote(noteId);
+};
 
-const handleDuplicate = (_noteId: string): void => {
-  toast.message('Duplicate will be available when note files are fully wired.')
-}
+const handleDuplicate = () // _noteId: string
+: void => {
+  toast.message("Duplicate will be available when note files are fully wired.");
+};
 
 const handleDelete = (noteId: string): void => {
-  notesStore.removeRecentNoteById(noteId)
-  toast.success('Removed from recent notes')
-}
+  notesStore.removeRecentNoteById(noteId);
+  toast.success("Removed from recent notes");
+};
 </script>
 
 <template>
@@ -61,10 +62,7 @@ const handleDelete = (noteId: string): void => {
       </SidebarMenuItem>
       <SidebarMenuItem>
         <SidebarMenuButton as-child>
-          <RouterLink
-            :to="{ name: 'notes' }"
-            class="text-sidebar-foreground/70"
-          >
+          <RouterLink :to="{ name: 'notes' }" class="text-sidebar-foreground/70">
             <List />
             <span>View all</span>
           </RouterLink>
